@@ -189,9 +189,9 @@
 	 /*LIST FOLDER*/
 	 let param1 = "1001";
 	 let param2 = "drive/1001/";
-	 let param3 = "1";
+	 let param3 = "";
 	 let param4 = "";
-	 let param5 = "2022-03-15::2022-04-15";
+	 let param5 = "2022-02-15::2022-05-15";
 	
 	 $.get("http://127.0.0.1/program/organizapp-api/HomeController/listTaskPending/",{
 		 "id_user": param1, 
