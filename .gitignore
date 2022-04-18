@@ -1,0 +1,20 @@
+# Add any directories, files, or patterns you don't want to be tracked by version control
+.DS_Store
+/.idea
+/vendor/
+/sitemap.xml
+/robots.txt
+/drive
+/drive-old
+/prueba
+.vscode
+.htaccess
+config.php
+
+
+#datos de email ignorado.
+#app/config/autentication_mail.php
+
+
+
+
