@@ -9,7 +9,7 @@
 * @description Clase para gestionar archivos.
 * @see         link de documentacion
 * @since       Fecha de elaboracion: 01/2/2021
-* @version     3.2.0 API
+* @version     3.3.0 API
 * @phpversion > 7.0
 */
 
@@ -85,12 +85,12 @@ class FileManager
 			        	'is_executable' => is_executable($item),
 			        ];
 		    }
-		    $list = ['success' => true, 'is_writable' => is_writable($this->path), 'path_name' => $this->path, 'results' =>$result];
+		    $list = ['type' => 'success', 'is_writable' => is_writable($this->path), 'path_name' => $this->path, 'data' =>$result];
 
 		} else {
 			$this->setMsg(__CLASS__."->".__FUNCTION__,"Not a Directory",(new Exception(""))->getLine(),412);
 			$result = [ 'msg' =>  'Not a Directory', 'code' =>  412];
-			$list = ['success' => false, 'is_writable' => is_writable($this->path), 'path_name' => $this->path, 'results' =>$result];
+			$list = ['type' => 'error', 'is_writable' => is_writable($this->path), 'path_name' => $this->path, 'data' =>$result];
 		}
 		
 
@@ -141,12 +141,12 @@ class FileManager
 		    	}
 
 		    }
-		    $list = ['success' => true, 'is_writable' => is_writable($this->path), 'path_name' => $this->path, 'results' =>$result];
+		    $list = ['type' => 'success', 'is_writable' => is_writable($this->path), 'path_name' => $this->path, 'data' =>$result];
 
 		} else {
 			$this->setMsg(__CLASS__."->".__FUNCTION__,"Not a Directory",(new Exception(""))->getLine(),412);
 			$result = [ 'msg' =>  'Not a Directory', 'code' =>  412];
-			$list = ['success' => false, 'is_writable' => is_writable($this->path), 'path_name' => $this->path, 'results' =>$result];
+			$list = ['type' => 'error', 'is_writable' => is_writable($this->path), 'path_name' => $this->path, 'data' =>$result];
 		}
 		//print_r($list);
 		return $list;
@@ -200,12 +200,12 @@ class FileManager
 		    	}
 
 		    }
-		    $list = ['success' => true, 'is_writable' => is_writable($this->path), 'path_name' => $this->path, 'results' =>$result];
+		    $list = ['type' => 'success', 'is_writable' => is_writable($this->path), 'path_name' => $this->path, 'data' =>$result];
 
 		} else {
 			$this->setMsg(__CLASS__."->".__FUNCTION__,"Not a Directory",(new Exception(""))->getLine(),412);
 			$result = [ 'msg' =>  'Not a Directory', 'code' =>  412];
-			$list = ['success' => false, 'is_writable' => is_writable($this->path), 'path_name' => $this->path, 'results' =>$result];
+			$list = ['type' => 'error', 'is_writable' => is_writable($this->path), 'path_name' => $this->path, 'data' =>$result];
 		}
 		//print_r($list);
 		return $list;
@@ -418,7 +418,7 @@ class FileManager
 		$values['MAX_UPLOAD_SIZE'] = $this->MAX_UPLOAD_SIZE;
 		$values['allow_upload'] = $this->allow_upload ? true : false;
 		$values['allow_direct_link'] = $this->allow_direct_link ? true : false;
-		return ['success' => true,'value' => $values];
+		return ['type' => 'success','value' => $values];
 		
 	}
 
