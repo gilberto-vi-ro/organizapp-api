@@ -93,7 +93,7 @@ class NotificationModel extends DB
 			if ($this->rowCount()>0)
 				return $this->fetchAll(PDO::FETCH_OBJ);
 			else
-				return null;
+				return array();
 			
 		} catch (PDOException $e) {
 			setMsg( "error", $e->getMessage(), __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() );
@@ -173,7 +173,9 @@ class NotificationModel extends DB
 			
 			#=====================error=========================
 			if (!$this->response){
-				print_r($this->error); exit();
+				setMsg( "error", "El id no existe", __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() );
+				print_r( json_encode(getMsg()));
+				exit();
 			}
 			#=====================return=========================
 			return $this->response;

@@ -15,30 +15,23 @@
 
 		public  function index () 
 	    {   
-			if (!session('id_usuario')){
-				$error["type"] = "error";
-				$error["msg"] = "nologin";
-				echo json_encode($res["response"] = $error);exit();
-			}
+			$idUser =  $_REQUEST["id_user"];
+			if ( !$this->HomeModel->existIdUser($idUser)){
+				echo json_encode(["data"=>"El id no existe"]);exit();
+			}	
 			
-	        $getImg = $this->getImg();
-    		$getName = $this->getName();
-    		$getCode = session('id_usuario');
-    		$pathDefault =  $this->getPathDefault();
+	        $getImg = $this->getImg($idUser);
+    		$getName = $this->getName($idUser);
+    		$getCode = $idUser;
+    		$pathDefault =  $this->getPathDefault($idUser);
 
-			$array["type"] =  "success";
-			$array["img-perfil"] =  $getImg;
-			$array["nombre-perfil"] = $getName;
-			$array["id-perfil"] =  $getCode;
-			$array["path-perfil"] =  $pathDefault;
-
-			echo json_encode($res["response"] = $array);
+			$data = ["data"=>["img"=>$getImg, "nombre"=> $getName,"id"=>$getCode, "path"=>  $pathDefault ]];
+			
+			echo json_encode($data);
 	    }
 
-	    public  function getImg () 
+	    public  function getImg ($idUser) 
 	    {   
-	   		$idUser = $this->idUser;
-
 	        $dataUser = $this->NotificationModel->getUser($idUser);
 	        $userImg = $dataUser->img;
 	   	 	if ($userImg == null) 
@@ -48,10 +41,8 @@
 	
 	        return $img; 
 	    }
-	    public  function getName() 
+	    public  function getName($idUser) 
 	    {   
-	   		$idUser = $this->idUser;
-
 	        $dataUser = $this->NotificationModel->getUser($idUser);
 	        $nameUser = $dataUser->nombre_completo;
 	 
@@ -69,11 +60,10 @@
 
 	    public  function getPathDefault() 
 	    {   
-	   		$idUser = $this->idUser;
-	   		$dp = $this->NotificationModel->getPathDefault($idUser);
-	   	
-	   		$path = ($dp)? $dp  : "drive/".$idUser ;
-	        return $path;  
+			$idUser = $_REQUEST["id_user"];
+			$dp = $this->NotificationModel->getPathDefault($idUser);
+			$path = ($dp)? $dp  : "drive/$idUser/";
+	        return $path; 
 	    }
 
 		public  function createNotification() 
@@ -81,7 +71,7 @@
 			
 			$idMsg = 0;$idTask = 0;
 	   		$data = $this->NotificationModel->getTaskExpired();
-			if ($data!=null){
+			if (empty($data) ){
 				foreach ($data as $task){
 					
 					if (date($task->fecha_entrega) < now("Y-m-d"))
@@ -98,14 +88,17 @@
 						setMsg( "error","ocurrio un error al insertar notificacion en la BD.",  __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() ); 
 					}
 				}
+			}else{
+				setMsg( "success","no hay notificacion por crear."); 
 			}
 			
-			//print_r( json_encode(getMsg()) );
-			//exit();
+			print_r( json_encode(getMsg()) );
+			exit();
 	    }
 
-		public  function seenNotification($idNotification) 
+		public  function seenNotification() 
 	    {   
+			$idNotification = $_REQUEST["id_notification"];
 			$res = $this->NotificationModel->seenNotification( $idNotification );
 			
 			if ($res) {
@@ -120,17 +113,25 @@
 
 		public  function countNotification() 
 	    {   
-			$this->createNotification();
-			$res = $this->NotificationModel->countNotification();
-			echo $res;
+			$idUser = $_REQUEST["id_user"];
+			//$this->createNotification();
+			$res = $this->NotificationModel->countNotification($idUser);
+			msg("response",[
+				"type"=>"success", 
+				"total"=> $res,
+				"where"=> null,
+				"line"=> null 
+			]);
+			print_r( json_encode(getMsg()) );
 			exit();
 	    }
 
-		public  function deleteNotification($item) 
+		public  function deleteNotification() 
 	    {   
+			$item = $_REQUEST['item'];
 			foreach ( $item as $key) {
 				//borramos en la bd
-				$res = $this->NotificationModel->deleteNotification($key->id_notificacion);
+				$res = $this->NotificationModel->deleteNotification($key["id_notification"]);
 				
 				if ($res) setMsg( "success","Se elimino correctamente en la BD." );
 				else {setMsg( "error","ocurrio un error al eliminar en la BD.", __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() );
@@ -140,16 +141,17 @@
 			exit();
 	    }
 
-		public  function listAllNotification($range) 
+		public  function listAllNotification() 
 	    {   
-	   		
-	   		$res = $this->NotificationModel->getNotification($range);
+			$range = $_REQUEST["range"];
+			$idUser = $_REQUEST["id_user"];
+	   		$res = $this->NotificationModel->getNotification($idUser,$range);
 			$list = [];
    			$result = [];
    			if ($res)
-   				$list = [ 'success' => true, 'results' => $res ];
+   				$list = [ 'type' => 'success', 'data' => $res ];
    			else 
-   				$list = [ 'success' => true, 'results' => $result ];
+   				$list = [ 'type' => 'error', 'data' => $result ];
     		echo json_encode($list);
 	   		exit(); 
 	    }
