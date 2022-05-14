@@ -93,7 +93,7 @@ class NotificationModel extends DB
 			if ($this->rowCount()>0)
 				return $this->fetchAll(PDO::FETCH_OBJ);
 			else
-				return array();
+				return null;
 			
 		} catch (PDOException $e) {
 			setMsg( "error", $e->getMessage(), __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() );

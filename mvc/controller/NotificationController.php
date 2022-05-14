@@ -71,7 +71,7 @@
 			
 			$idMsg = 0;$idTask = 0;
 	   		$data = $this->NotificationModel->getTaskExpired();
-			if (empty($data) ){
+			if ($data!=null){
 				foreach ($data as $task){
 					
 					if (date($task->fecha_entrega) < now("Y-m-d"))
@@ -88,9 +88,10 @@
 						setMsg( "error","ocurrio un error al insertar notificacion en la BD.",  __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() ); 
 					}
 				}
-			}else{
-				setMsg( "success","no hay notificacion por crear."); 
 			}
+
+			if (getMsg()==[])
+				setMsg( "success","no hay notificacion por crear."); 
 			
 			print_r( json_encode(getMsg()) );
 			exit();

@@ -91,7 +91,9 @@ class HomeModel extends DB
 							WHERE archivo.id_archivo=? ");
 			$this->bindParam(1,$idFile);
 			$this->execute();
-			return $this->fetchAll(PDO::FETCH_OBJ)[0]->path_name;
+			if ($this->rowCount()>0)
+				return $this->fetchAll(PDO::FETCH_OBJ)[0]->path_name;
+			return null;
 			
 		} catch (PDOException $e) {
 			setMsg( "error", $e->getMessage(), __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() );

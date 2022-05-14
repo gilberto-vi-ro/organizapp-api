@@ -69,9 +69,21 @@
     		return $this->FileManager->pathIgnored($path);
 	    }
 
-		public  function getPathFile($idfile) 
+		public  function getPathFile() 
 	    {   
-    	    echo $this->HomeModel->getPathFileInDB($idfile);
+			$idFile = $_REQUEST["id_file"];
+    	    $path = $this->HomeModel->getPathFileInDB($idFile);
+			if ($path!==null)
+				msg("response",[
+					"type"=>"success", 
+					"path"=> $path,
+					"where"=> null,
+					"line"=> null 
+				]);
+			else
+				setMsg( "error","El id no existe",  __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() ); 
+			print_r( json_encode(getMsg()) );
+			exit();
 	    }
 
 		/*====================================================
@@ -103,14 +115,15 @@
 	        //exit();
 	    }
 
-	    public  function addNewTask($data) 
+	    public  function addNewTask() 
 	    {   
+			$data = $_REQUEST;
 	    	$pathname = $this->FileManager->convertToPathname($data['path_name']);
-	    	$idFolder = $this->HomeModel->getIdFolder($pathname, $this->idUser);
+	    	$idFolder = $this->HomeModel->getIdFolder($pathname,  $_REQUEST["id_user"]);
 	    	$data["id_folder"] = $idFolder;
-			echo"$idFolder \n";
+		
 	    	$res = $this->HomeModel->addNewTask($data, $idFolder);
-			if ($res === 2) setMsg( "error","La tarea ya existe en la BD.",  __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() ); 
+			if ($res === 2) setMsg( "error","El nombre de la tarea ya existe en la BD.",  __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() ); 
 			else if ($res) {
 	    		setMsg( "success","La tarea se agrego en la BD." ); 
 	    	}else{
@@ -190,16 +203,21 @@
    			$result = [];
    			$res=$this->HomeModel->getTaskPending($pathname, $priority, $search, $range);
    			if ($res)
-   				$list = [ 'success' => true, 'path' => $pathname, 'results' => $res ];
+   				$list = [ 'type' => "success", 'path' => $pathname, 'data' => $res ];
    			else 
-   				$list = [ 'success' => true, 'path' => $pathname, 'results' => $result ];
+   				$list = [ 'type' => "error", 'path' => $pathname, 'data' => $result ];
     		echo json_encode($list);
 
 	   		exit();
 	   		
 	    }
-	    public  function listTaskDone($pathname, $priority, $search, $range) 
+	    public  function listTaskDone() 
 	    {   
+			$pathname = $_REQUEST["path"];
+			$priority = $_REQUEST["priority"];
+			$search = $_REQUEST["search"];
+			$range = $_REQUEST["range"];
+
 	    	if ( $this->pathIgnored($pathname) ) {
 	    		$pathname = $this->getPathDefault();
 	    	}
@@ -208,16 +226,20 @@
    			$result = [];
    			$res=$this->HomeModel->getTaskDone($pathname, $priority, $search, $range);
    			if ($res)
-   				$list = [ 'success' => true, 'path' => $pathname, 'results' => $res ];
+   				$list = [ 'type' => "success", 'path' => $pathname, 'data' => $res ];
    			else 
-   				$list = [ 'success' => true, 'path' => $pathname, 'results' => $result ];
+   				$list = [ 'type' => "error", 'path' => $pathname, 'data' => $result ];
     		echo json_encode($list);
 
 	   		exit();
 	   		
 	    }
-	    public  function listTaskDelivered($pathname, $priority, $search, $range) 
+	    public  function listTaskDelivered() 
 	    {   
+			$pathname = $_REQUEST["path"];
+			$priority = $_REQUEST["priority"];
+			$search = $_REQUEST["search"];
+			$range = $_REQUEST["range"];
 	    	if ( $this->pathIgnored($pathname) ) { 
 	    		$pathname = $this->getPathDefault();
 	    	}
@@ -226,9 +248,9 @@
    			$result = [];
    			$res=$this->HomeModel->getTaskDelivered($pathname, $priority, $search, $range);
    			if ($res)
-   				$list = [ 'success' => true, 'path' => $pathname, 'results' => $res ];
+   				$list = [ 'type' => "success", 'path' => $pathname, 'data' => $res ];
    			else 
-   				$list = [ 'success' => true, 'path' => $pathname, 'results' => $result ];
+   				$list = [ 'type' => "error", 'path' => $pathname, 'data' => $result ];
     		echo json_encode($list);
 
 	   		exit();
