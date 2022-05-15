@@ -144,8 +144,10 @@
 			$idFile = $this->FolderModel->getIdFile($oldName,$oldExt,$idFolder);
 			return $idFile;
 		}
-		public  function upload($pathname, $_FILE_) 
+		public  function upload() 
 	    {   
+			$pathname = $_REQUEST["pathname"];
+			$_FILE_ = $_FILES;
 			// print_r($_FILE_);
 			$file["name"] = $_FILE_["file_data"]["name"];
 			$file["extension"] = $this->FileManager->getExtension($_FILE_["file_data"]["name"]);
@@ -175,6 +177,7 @@
 	    {   
 			$pathname = $_REQUEST["pathname"];
 			$isDir = $_REQUEST["is_dir"];
+			$idUser = $_REQUEST["id_user"];
 	    	if ( $this->pathIgnored($pathname) ) {
 	    		$pathname = $this->getPathDefault();
 	    	}
@@ -185,7 +188,7 @@
 				   $file['size']=0;
 				   $file['extension']="zip";
 				   $myPathname = $this->FileManager->getPath($pathname);
-				   $idFolder = $this->FolderModel->getIdFolder(substr($myPathname,0,-1), $this->idUser);
+				   $idFolder = $this->FolderModel->getIdFolder(substr($myPathname,0,-1), $idUser);
 				   $res = $this->FolderModel->reInsertFileInDB( $file, $idFolder );
 				   if ($res) echo"Se guardo correctamente en la BD";
 				   else echo "ocurrio un error al guardar en la BD";
@@ -357,7 +360,7 @@
 
 	    public  function getValues() 
 	    {   
-    		json_encode($this->FileManager->getValuesConfig()) ;
+    		echo json_encode($this->FileManager->getValuesConfig()) ;
 	    	exit();
 	    }
 

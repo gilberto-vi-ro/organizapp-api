@@ -31,8 +31,7 @@
 		public function listUsers()
 		{
 			$mydata = $this->AdminModel->listUsers();
-			echo json_encode(["data"=>$mydata]);
-	       
+			echo json_encode( ['type' => "success","data"=>$mydata]);
 		}
 
 		public function deleteUser()

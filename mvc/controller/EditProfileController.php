@@ -56,7 +56,7 @@
 
 	        
 	        if ( $EditProfileModel->updateProfile( $dataBD, $idUser) )
-				setMsg( "error","Datos actualizados", __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() );
+				setMsg( "success","Datos actualizados", __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() );
 	        else
 				setMsg( "error","Ocurrio un error al Actualizar", __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() );
 
