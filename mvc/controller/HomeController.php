@@ -133,10 +133,11 @@
 	    	exit();
 	    }
 
-		public  function editStatusTask($post) 
+		public  function editStatusTask() 
 	    {   
+			$data = $_REQUEST;
 			//renombramos en la bd
-			$res = $this->HomeModel->editStatusTaskInDB($post);
+			$res = $this->HomeModel->editStatusTaskInDB($data);
 			if ($res) {
 	    		setMsg( "success","La tarea se actualizó en la BD." ); 
 	    	}else{
@@ -145,14 +146,16 @@
 			print_r( json_encode(getMsg(),JSON_UNESCAPED_UNICODE) );
 			exit();
 	    }
-		public  function editTask($post) 
+		public  function editTask() 
 	    {   
+			$data = $_REQUEST;
 			$GLOBALS["id_file"]=null;
-			if ( $_FILES["file_data"]["name"] != null || $_FILES["file_data"]["name"] != "" )
-				$this->upload($post["pathname"],$post["id_carpeta"], $_FILES);
-			
+			if (isset($_FILES["file_data"])){
+				if ( $_FILES["file_data"]["name"] != null || $_FILES["file_data"]["name"] != "" )
+					$this->upload($data["pathname"],$data["id_carpeta"], $_FILES);
+			}
 			//renombramos en la bd
-			$res = $this->HomeModel->editTaskInDB($post);
+			$res = $this->HomeModel->editTaskInDB($data);
 			if ($res === 2) setMsg( "error","La tarea ya existe en la BD.",  __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() ); 
 			else if ($res) {
 	    		setMsg( "success","La tarea se edito en la BD." ); 
@@ -163,12 +166,16 @@
 			exit();
 	    }
 
-		public  function deleteTask($item) 
+		public  function deleteTask() 
 	    {   
+			$item = $_REQUEST['item'];
 			foreach ( $item as $key => $value) {
 				//borramos en la bd
 				$res = $this->HomeModel->deleteTaskInDB($value["id_tarea"]);
+				if ($res) setMsg( "success","Se elimino correctamente en la BD." );
+				else setMsg("error","ocurrio un error al eliminar en la BD.", __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() );
 			}
+			print_r( json_encode(getMsg()) );
 			exit();
 	    }
 
