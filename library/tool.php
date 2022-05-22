@@ -135,7 +135,7 @@
 	}
 
 	/**
-    * Genera una token aleatoria.
+    * Genera un token aleatorio.
 	* @return string $token
 	*/
 	function generateToken($length = 8)
