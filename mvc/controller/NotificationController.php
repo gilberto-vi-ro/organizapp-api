@@ -117,7 +117,7 @@
 			$idUser = $_REQUEST["id_user"];
 			//$this->createNotification();
 			$res = $this->NotificationModel->countNotification($idUser);
-			msg("response",[
+			msg([
 				"type"=>"success", 
 				"total"=> $res,
 				"where"=> null,

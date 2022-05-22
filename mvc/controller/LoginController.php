@@ -35,18 +35,19 @@
 				$this->LoginModel->setLastTime($myData["id_usuario"]);
 	            if ($myData["tipo"]==0)
 	            {
-					msg("response",[
+					msg([
 						"type"=>"success", 
 						"id"=> $myData["id_usuario"],
 						"msg"=> "Bienvenido como admin",
 						"where"=> null,
 						"line"=> null 
 					]);
+					
 					echo json_encode(getMsg(),JSON_UNESCAPED_UNICODE);exit();
 				}
 	            else
 				{
-					msg("response",[
+					msg([
 						"type"=>"success", 
 						"id"=> $myData["id_usuario"],
 						"msg"=> "Bienvenido como usuario",

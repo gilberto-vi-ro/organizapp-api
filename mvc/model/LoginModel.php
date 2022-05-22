@@ -17,7 +17,8 @@ class LoginModel extends DB
 				return false;
 			
 		} catch (PDOException $e) {
-			echo $e->getMessage(); 
+			setMsg( "error", $e->getMessage(), __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() );
+			print_r( json_encode(getMsg()));
 			exit();
 		}
 	
@@ -64,7 +65,8 @@ class LoginModel extends DB
 		
 			
 		} catch (PDOException $e) {
-			echo $e->getMessage(); 
+			setMsg( "error", $e->getMessage(), __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() );
+			print_r( json_encode(getMsg()));
 			exit();
 		}
 	}
@@ -81,7 +83,8 @@ class LoginModel extends DB
 				return false;
 
 		} catch (PDOException $e) {
-			echo $e->getMessage(); 
+			setMsg( "error", $e->getMessage(), __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() );
+			print_r( json_encode(getMsg()));
 			exit();
 		}
 	}
@@ -90,7 +93,8 @@ class LoginModel extends DB
 		try {
 			return $this->getMaxId( 'id_usuario' , 'usuario');
 		} catch (PDOException $e) {
-			echo $e->getMessage(); 
+			setMsg( "error", $e->getMessage(), __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() );
+			print_r( json_encode(getMsg()));
 			exit();
 		}
 	}

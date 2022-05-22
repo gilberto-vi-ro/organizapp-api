@@ -36,7 +36,8 @@ class EditProfileModel extends DB
 			return $this->response;
 			
 		} catch (PDOException $e) {
-			echo $e->getMessage(); 
+			setMsg( "error", $e->getMessage(), __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() );
+			print_r( json_encode(getMsg()));
 			exit();
 		}
 	}
@@ -52,7 +53,8 @@ class EditProfileModel extends DB
 				return false;
 		
 		} catch (PDOException $e) {
-			echo $e->getMessage(); 
+			setMsg( "error", $e->getMessage(), __CLASS__."->".__FUNCTION__ , (new Exception(""))->getLine() );
+			print_r( json_encode(getMsg()));
 			exit();
 		}
 	
