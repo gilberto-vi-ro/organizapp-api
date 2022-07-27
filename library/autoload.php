@@ -3,12 +3,12 @@
 	/**
 	* @category    Cargar librerias.
 	* @package     Library/autoload
-	* @author      Gilberto villarreal Rodriguez  <Gil_yeung@outlook.com>
-	* @link        https://sitegl.com/
-    * @license     https://www.sitegl.com/api-gl/?license New  License Open Source
+	* @author      Gilberto Villarreal Rodriguez  <Gil_yeung@outlook.com>
+    * @link        https://myproyecto.com/
+    * @license     License Open Source
 	* @description El objetivo es cargar los achivos que se requieran dependiendo de las clases.
     * @see     	   link de documentacion
-    * @since       Fecha de elaboracion: 12/2/2019
+    * @since       12/2/2019
 	* @version     3.1.0
 	*/
 

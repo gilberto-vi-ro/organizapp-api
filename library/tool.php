@@ -4,12 +4,12 @@
     * @category    Herramienta principal.
     * @package     library/tool
     * @author      Gilberto Villarreal Rodriguez  <Gil_yeung@outlook.com>
-    * @link        https://sitegl.com/
-    * @license     https://www.sitegl.com/framework-gl/?license New  License Open Source
+    * @link        https://myproyecto.com/
+    * @license     License Open Source
     * @description Emplear metodos o funciones en general es decir para todos los controllers.
     * @see         link de documentacion
-    * @since       Fecha de elaboracion: 13/2/2019
-    * @version     3.0.0 API
+    * @since       13/2/2019
+    * @version     3.0.0
     */
     
    
@@ -117,7 +117,7 @@
         return $data;
     }
 
-   /**
+    /**
     * Genera una contraseña aleatoria.
     * @param int $length Longitud de caracter
 	* @return string $password
@@ -138,7 +138,7 @@
     * Genera un token aleatorio.
 	* @return string $token
 	*/
-	function generateToken($length = 8)
+	function generateToken($length = 16)
 	{
         return generatePassword($length);
 	}
@@ -241,7 +241,7 @@
 				"type"=>$type, 
 				"msg"=> $msg,
 				"where"=> $where,
-				"line"=> $line
+				"line"=> $line 
 			]);
 	}
 
@@ -249,4 +249,70 @@
 		return msg();
 	}
 
+	/**
+	* Descargar archivo
+	* @param string $fileName
+	* @return bool
+	*/
+	function download($fileName) {
 
+	    if (file_exists($fileName)){
+	      
+	    	ob_clean();
+		    	header('Content-Description: File Transfer');
+		        header('Content-Type: application/octet-stream');
+		        header('Content-Disposition: attachment; filename='.basename($fileName));
+		        header('Content-Transfer-Encoding: binary');
+		        header('Expires: 0');
+		        header('Cache-Control: must-revalidate');
+		        header('Pragma: public');
+		        header('Content-Length: ' . filesize($fileName));
+		    ob_end_clean();
+         	flush();
+	        readfile($fileName);
+	        return true;
+	    }else{
+	        return false;
+	    }
+	}
+
+/**
+* verifica si ya se ha iniciado session_start
+* @return bool
+*/
+
+function is_session_started()
+{
+	if ( php_sapi_name() !== 'cli' ) {
+		if ( version_compare(phpversion(), '5.4.0', '>=') ) {
+			return session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
+		} else {
+			return session_id() === '' ? FALSE : TRUE;
+		}
+	}
+	return FALSE;
+}
+
+/**
+* Determina el tiempo de la session_start
+* @param int $time 3600 = 1 hour, 1 = 1 second
+*/
+function set_cookie_params_to_session($time=3600){
+	//sin https esto no funciona
+	$maxlifetime = $time; // 3600 = 1 hour, 1 = 1 second
+	$secure = true; // if you only want to receive the cookie over HTTPS
+	$httponly = true; // prevent JavaScript access to session cookie
+	$samesite = 'lax';
+	if(PHP_VERSION_ID < 70300) {
+		session_set_cookie_params($maxlifetime, '/; samesite='.$samesite, $_SERVER['HTTP_HOST'], $secure, $httponly);
+	} else {
+		session_set_cookie_params([
+			'lifetime' => $maxlifetime,
+			'path' => '/',
+			'domain' => $_SERVER['HTTP_HOST'],
+			'secure' => $secure,
+			'httponly' => $httponly,
+			'samesite' => $samesite
+		]);
+	}
+}

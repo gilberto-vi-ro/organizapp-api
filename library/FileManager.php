@@ -4,11 +4,11 @@
 * @category    FileManager.
 * @package     libary
 * @author      Gilberto Villarreal Rodriguez  <Gil_yeung@outlook.com>
-* @link        https://sitegl.com/
-* @license     https://www.sitegl.com/framework-gl/?license New  License Open Source
+* @link        https://myproyecto.com/
+* @license     License Open Source
 * @description Clase para gestionar archivos.
 * @see         link de documentacion
-* @since       Fecha de elaboracion: 01/2/2021
+* @since       01/2/2021
 * @version     3.3.0 API
 * @phpversion > 7.0
 */

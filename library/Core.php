@@ -3,16 +3,16 @@
     /**
     * @category    Clase  principal.
     * @package     framegl/Core
-    * @author      Gilberto villarreal Rodriguez  <Gil_yeung@outlook.com>
-    * @link        https://sitegl.com/
-    * @license     https://www.sitegl.com/api-gl/?license New  License Open Source
+    * @author      Gilberto Villarreal Rodriguez  <Gil_yeung@outlook.com>
+    * @link        https://myproyecto.com/
+    * @license     License Open Source
     * @description Core tiene como objetivo Mapear la url ingresada en el navegador por eslash=/
     *               0- controlador
     *               1- metodo
     *               2- parametro
     *               ejemplo: /articulo/actualizar/4
     * @see         link de documentacion
-    * @since       Fecha de elaboracion: 01/1/2019
+    * @since       01/1/2019
     * @version     4.2.0
     */
     

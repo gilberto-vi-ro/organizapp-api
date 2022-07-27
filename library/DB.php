@@ -4,11 +4,11 @@
     * @category    Base de datos.
     * @package     library/DB
     * @author      Gilberto Villarreal Rodriguez  <Gil_yeung@outlook.com>
-    * @link        https://sitegl.com/
-    * @license     https://www.sitegl.com/framework-gl/?license New  License Open Source
+    * @link        https://myproyecto.com/
+    * @license     License Open Source
     * @description Clase para conectar a la base de datos y ejecutar consultas PDO.
     * @see         link de documentacion
-    * @since       Fecha de elaboracion: 01/2/2019
+    * @since       01/2/2019
     * @version     4.1.2
     */
 
